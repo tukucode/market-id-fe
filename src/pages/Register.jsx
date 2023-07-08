@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, Form, InputGroup, Button } from "react-bootstrap";
+import { toast } from "react-toastify";
+import handleErrorMessage from "../utils/handleErrorMessage";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
+
+import { axiosInstance as axios } from "../config/https";
 
 const initialValues = {
   full_name: "",
@@ -22,6 +26,7 @@ const validationSchema = Yup.object({
 
 export default function Register() {
   const [show, setShow] = useState(false);
+  const navigate = useNavigate();
 
   function handleShowPassword() {
     setShow(!show);
@@ -31,7 +36,27 @@ export default function Register() {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      console.log("ini", values);
+      const form = values;
+      axios
+        .post("/users/new", form)
+        .then((response) => {
+          const message = response.data.message;
+
+          toast(handleErrorMessage(message), {
+            position: toast.POSITION.TOP_RIGHT,
+            type: toast.TYPE.SUCCESS,
+          });
+
+          navigate("/login");
+        })
+        .catch((error) => {
+          const message = error.response?.data?.message;
+
+          toast(handleErrorMessage(message), {
+            position: toast.POSITION.TOP_RIGHT,
+            type: toast.TYPE.ERROR,
+          });
+        });
     },
   });
 
@@ -99,7 +124,7 @@ export default function Register() {
                   onChange={formik.handleChange}
                   className={formik.errors.email && "border-danger"}
                 />
-                <Button onClick={handleShowPassword}>
+                <Button variant="light" onClick={handleShowPassword}>
                   {show ? (
                     <i className="bi bi-eye"></i>
                   ) : (

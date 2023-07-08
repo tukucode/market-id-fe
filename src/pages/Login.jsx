@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { axiosInstance as axios } from "../config/https";
+import { useSelector, useDispatch } from "react-redux";
 
 const initialValues = {
   email: "",
@@ -23,6 +24,10 @@ export default function Login() {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
+  // REDUX STORE
+  const { user, token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
   function handleShowPassword() {
     setShow(!show);
   }
@@ -37,18 +42,28 @@ export default function Login() {
     axios
       .post("/users/login", form)
       .then((response) => {
-        const { data, message } = response.data;
+        const { _id, token, role } = response.data.data;
 
+        // SET STORE
+        dispatch({ type: "AUTH_TOKEN", value: token });
+        dispatch({ type: "AUTH_USER", value: { _id, role } });
+
+        // SET LOCALSTORE
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify({ _id, role }));
+
+        // TOAST
+        const message = response.data.message;
         toast(handleErrorMessage(message), {
           position: toast.POSITION.TOP_RIGHT,
           type: toast.TYPE.SUCCESS,
         });
 
+        // REDIRECT TO HOME PAGE
         navigate("/");
       })
       .catch((error) => {
         const message = error.response?.data?.message;
-
         toast(handleErrorMessage(message), {
           position: toast.POSITION.TOP_RIGHT,
           type: toast.TYPE.ERROR,

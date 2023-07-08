@@ -35,30 +35,31 @@ export default function Register() {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      const form = values;
-      axios
-        .post("/users/new", form)
-        .then((response) => {
-          const message = response.data.message;
-
-          toast(handleErrorMessage(message), {
-            position: toast.POSITION.TOP_RIGHT,
-            type: toast.TYPE.SUCCESS,
-          });
-
-          navigate("/login");
-        })
-        .catch((error) => {
-          const message = error.response?.data?.message;
-
-          toast(handleErrorMessage(message), {
-            position: toast.POSITION.TOP_RIGHT,
-            type: toast.TYPE.ERROR,
-          });
-        });
-    },
+    onSubmit: handleRegister,
   });
+
+  function handleRegister(form) {
+    axios
+      .post("/users/new", form)
+      .then((response) => {
+        const message = response.data.message;
+
+        toast(handleErrorMessage(message), {
+          position: toast.POSITION.TOP_RIGHT,
+          type: toast.TYPE.SUCCESS,
+        });
+
+        navigate("/login");
+      })
+      .catch((error) => {
+        const message = error.response?.data?.message;
+
+        toast(handleErrorMessage(message), {
+          position: toast.POSITION.TOP_RIGHT,
+          type: toast.TYPE.ERROR,
+        });
+      });
+  }
 
   return (
     <section className="d-flex justify-content-center align-items-center min-vh-100">

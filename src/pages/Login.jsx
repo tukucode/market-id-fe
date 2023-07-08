@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Card, Form, InputGroup, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import handleErrorMessage from "../utils/handleErrorMessage";
@@ -22,7 +22,6 @@ const validationSchema = Yup.object({
 
 export default function Login() {
   const [show, setShow] = useState(false);
-  const navigate = useNavigate();
 
   // REDUX STORE
   const dispatch = useDispatch();
@@ -54,15 +53,8 @@ export default function Login() {
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify({ _id, role }));
 
-        // TOAST
-        const message = response.data.message;
-        toast(handleErrorMessage(message), {
-          position: toast.POSITION.TOP_RIGHT,
-          type: toast.TYPE.SUCCESS,
-        });
-
         // REDIRECT TO HOME PAGE
-        navigate("/");
+        window.location.href = "/";
       })
       .catch((error) => {
         const message = error.response?.data?.message;

@@ -1,4 +1,11 @@
 import "../../assets/css/custom-product-navbar.css";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import handleErrorMessage from "../../utils/handleErrorMessage";
+
+import { axiosInstance as axios } from "../../config/https";
+
 import {
   Container,
   Button,
@@ -9,11 +16,39 @@ import {
 } from "react-bootstrap";
 
 function TextLinkExample() {
+  // STORE AUTH
+  const { token, user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  function handleLogout() {
+    const _id = user._id;
+
+    dispatch({ type: "SET_LOADING", value: true });
+    axios
+      .post(`/users/${_id}/logout`)
+      .then((response) => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        // to page login
+        window.location.href = "/login";
+      })
+      .catch((error) => {
+        const message = error.response?.data?.message;
+        toast(handleErrorMessage(message), {
+          position: toast.POSITION.TOP_RIGHT,
+          type: toast.TYPE.ERROR,
+        });
+      })
+      .finally(() => {
+        dispatch({ type: "SET_LOADING", value: false });
+      });
+  }
   return (
     <Navbar bg="primary" expand="md" variant="dark">
       <Container>
         <Navbar.Brand href="/" className="heading__4">
-          Market.ID
+          Market.ID {token ? "TRUE" : "FALSE"}
         </Navbar.Brand>
 
         <Navbar.Toggle />
@@ -40,15 +75,34 @@ function TextLinkExample() {
           </Nav>
 
           <Nav>
-            <Button
-              variant="outline-light"
-              className="me-md-3 my-md-0 my-3 me-0"
-            >
-              Login
-            </Button>
-            <Button variant="light" className="text-primary">
-              Register
-            </Button>
+            {token ? (
+              <>
+                <Link
+                  to="/cart"
+                  className="me-md-3 my-md-0 my-3 me-0 btn btn-outline-light d-flex justify-content-center align-items-center"
+                >
+                  <i className="bi bi-cart-fill"></i>
+                  <span className="sub__heading__5 ms-2">0</span>
+                </Link>
+
+                <Button variant="light" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="me-md-3 my-md-0 my-3 me-0 btn btn-outline-light"
+                >
+                  Login
+                </Link>
+
+                <Link to="/register" className="text-primary btn btn-light">
+                  Register
+                </Link>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

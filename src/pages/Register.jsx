@@ -140,7 +140,7 @@ export default function Register() {
             </Form.Group>
 
             <Button type="submit" variant="primary" className="w-100 my-4">
-              Login
+              Register
             </Button>
           </Form>
 

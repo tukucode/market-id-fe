@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState, useCallback } from "react";
 import { Row, Col } from "react-bootstrap";
 import ProductCard from "../components/Products/ProductCard";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,38 +10,33 @@ import handleErrorMessage from "../utils/handleErrorMessage";
 import { axiosInstance as axios } from "../config/https";
 
 export default function Products() {
+  const storeParamsProduct = useSelector((state) => state.product);
   const [data, setData] = useState([]);
-  const [params, setParams] = useState({
-    q: "",
-    sort_by: "desc",
-    page: 1,
-    per_page: 10,
-  });
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // SET LOADING
-    dispatch({ type: "SET_LOADING", value: true });
-    axios
-      .get("/products", { params: { ...params } })
-      .then((response) => {
-        setData(response.data.data);
-      })
-      .catch((error) => {
-        const message = error.response?.data?.message;
-        toast(handleErrorMessage(message), {
-          position: toast.POSITION.TOP_RIGHT,
-          type: toast.TYPE.ERROR,
+    if (storeParamsProduct) {
+      // SET LOADING
+      dispatch({ type: "SET_LOADING", value: true });
+      axios
+        .get("/products", { params: { ...storeParamsProduct } })
+        .then((response) => {
+          setData(response.data.data);
+        })
+        .catch((error) => {
+          const message = error.response?.data?.message;
+          toast(handleErrorMessage(message), {
+            position: toast.POSITION.TOP_RIGHT,
+            type: toast.TYPE.ERROR,
+          });
+        })
+        .finally(() => {
+          // SET LOADING
+          dispatch({ type: "SET_LOADING", value: false });
         });
-      })
-      .finally(() => {
-        // SET LOADING
-        dispatch({ type: "SET_LOADING", value: false });
-      });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    }
+  }, [storeParamsProduct]);
 
   return (
     <Row>

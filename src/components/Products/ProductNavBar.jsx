@@ -1,8 +1,9 @@
-import "../../assets/css/custom-product-navbar.css";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import handleErrorMessage from "../../utils/handleErrorMessage";
+import "../../assets/css/custom-product-navbar.css";
 
 import { axiosInstance as axios } from "../../config/https";
 
@@ -18,7 +19,28 @@ import {
 function TextLinkExample() {
   // STORE AUTH
   const { token, user } = useSelector((state) => state.auth);
+  const { q, sort_by } = useSelector((state) => state.product);
   const dispatch = useDispatch();
+
+  // STATE
+  const [params, setParams] = useState({
+    q,
+    sort_by,
+  });
+
+  function handleOnChange(event) {
+    setParams({ ...params, [event.target.name]: event.target.value });
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    console.log("INI", params);
+
+    // SET VALUE PARAMS Q & SORTBY TO STORE PRODUCT
+    dispatch({ type: "ACTION_SEARCH", value: params.q });
+    dispatch({ type: "ACTION_SORT_BY", value: params.sort_by });
+  }
 
   function handleLogout() {
     const _id = user._id;
@@ -48,32 +70,45 @@ function TextLinkExample() {
     <Navbar bg="primary" expand="md" variant="dark">
       <Container>
         <Navbar.Brand href="/" className="heading__4">
-          Market.ID {token ? "TRUE" : "FALSE"}
+          Market.ID
         </Navbar.Brand>
 
         <Navbar.Toggle />
 
         <Navbar.Collapse>
           <Nav className="w-100 d-flex justify-content-center align-items-center">
-            <Form className="container__srearch my-md-0 mt-3">
+            <Form
+              className="container__srearch my-md-0 mt-3"
+              onSubmit={handleSubmit}
+            >
               <InputGroup>
-                <Form.Select className="select__search">
-                  <option value="1">Sort By</option>
-                  <option value="2">15</option>
-                  <option value="3">20</option>
+                <Form.Select
+                  className="select__search"
+                  name="sort_by"
+                  value={params.sort_by}
+                  onChange={handleOnChange}
+                >
+                  <option value="asc">ASC</option>
+                  <option value="desc">DESC</option>
                 </Form.Select>
 
                 <Form.Control
                   placeholder="Search by product name"
                   className="input__search border-0"
+                  name="q"
+                  value={params.q}
+                  onChange={handleOnChange}
                 />
-                <Button variant="light" className="d-flex align-items-center">
+                <Button
+                  type="submit"
+                  variant="light"
+                  className="d-flex align-items-center"
+                >
                   <i className="bi bi-search"></i>
                 </Button>
               </InputGroup>
             </Form>
           </Nav>
-
           <Nav>
             {token ? (
               <>

@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/typograph.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

@@ -7,7 +7,7 @@ export default function LayoutProduct() {
     <>
       <ProductNavBar />
 
-      <Container className="pt-5">
+      <Container className="py-5">
         <Outlet />
       </Container>
     </>

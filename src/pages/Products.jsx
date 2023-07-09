@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/Products/ProductCard";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Form, Pagination } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 
 import { toast } from "react-toastify";

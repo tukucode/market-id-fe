@@ -17,6 +17,7 @@ import LayoutAuth from "../Layouts/LayoutAuth";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Products from "../pages/Products";
+import Carts from "../pages/Carts";
 
 // NEGATIVE PAGE
 import Error from "../pages/Error";
@@ -35,6 +36,7 @@ export default createBrowserRouter(
         }
       >
         <Route path="/" element={<Products />} />
+        <Route path="/cart" element={<Carts />} />
       </Route>
 
       {/* PAGE LOGIN & REGISTER */}

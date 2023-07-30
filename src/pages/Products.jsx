@@ -77,7 +77,7 @@ export default function Products() {
         )
       }
 
-      {/* LOADING */}
+      {/* PAGINTATION */}
       {
         !storeLoading.isLoading && (
           <Row>

@@ -70,7 +70,7 @@ export default function Products() {
       
       {/* PRODUCT NOT FOUND */}
       {
-        !data.length && (
+        !storeLoading.isLoading && !data.length && (
           <div className="d-flex justify-content-center align-items-center">
             <h3>Product Not Found</h3>
           </div>

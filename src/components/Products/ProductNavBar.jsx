@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import handleErrorMessage from "../../utils/handleErrorMessage";
@@ -71,6 +71,11 @@ function TextLinkExample() {
         dispatch({ type: "SET_LOADING", value: false });
       });
   }
+
+  const navigate = useNavigate();
+  function handleToPageCart() {
+    navigate("/cart");
+  }
   return (
     <Navbar bg="primary" expand="md" variant="dark">
       <Container>
@@ -117,13 +122,14 @@ function TextLinkExample() {
           <Nav>
             {token ? (
               <>
-                <Link
-                  to="/cart"
+                <Button
+                  disabled={countQty === 0}
                   className="me-md-3 my-md-0 my-3 me-0 btn btn-outline-light d-flex justify-content-center align-items-center"
+                  onClick={handleToPageCart}
                 >
                   <i className="bi bi-cart-fill"></i>
                   <span className="sub__heading__5 ms-2">{countQty}</span>
-                </Link>
+                </Button>
 
                 <Button variant="light" onClick={handleLogout}>
                   Logout

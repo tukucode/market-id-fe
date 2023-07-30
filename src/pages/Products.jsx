@@ -12,6 +12,7 @@ import { axiosInstance as axios } from "../config/https";
 
 export default function Products() {
   const storeParamsProduct = useSelector((state) => state.product);
+  const storeLoading = useSelector((state) => state.loading)
   const [data, setData] = useState([]);
   const [pagination, setPagination] = useState({});
 
@@ -66,39 +67,47 @@ export default function Products() {
           </Col>
         ))}
       </Row>
+      
+      {/* PRODUCT NOT FOUND */}
+      {
+        !data.length && (
+          <div className="d-flex justify-content-center align-items-center">
+            <h3>Product Not Found</h3>
+          </div>
+        )
+      }
 
-      {data.length ? (
-        <Row>
-          <Col
-            xs="12"
-            className="d-flex justify-content-end align-items-center"
-          >
-            <Form.Select
-              value={storeParamsProduct.per_page}
-              onChange={handleChange}
-              className="w-auto me-4 mb-3"
+      {/* LOADING */}
+      {
+        !storeLoading.isLoading && (
+          <Row>
+            <Col
+              xs="12"
+              className="d-flex justify-content-end align-items-center"
             >
-              <option value="10">10</option>
-              <option value="15">15</option>
-              <option value="20">20</option>
-              <option value="25">25</option>
-            </Form.Select>
+              <Form.Select
+                value={storeParamsProduct.per_page}
+                onChange={handleChange}
+                className="w-auto me-4 mb-3"
+              >
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+              </Form.Select>
 
-            <PaginationControl
-              page={pagination.page}
-              total={pagination.total}
-              limit={pagination.per_page}
-              ellipsis={2}
-              between={4}
-              changePage={handlePagination}
-            ></PaginationControl>
-          </Col>
-        </Row>
-      ) : (
-        <div className="d-flex justify-content-center align-items-center">
-          <h3>Product Not Found</h3>
-        </div>
-      )}
+              <PaginationControl
+                page={pagination.page}
+                total={pagination.total}
+                limit={pagination.per_page}
+                ellipsis={2}
+                between={4}
+                changePage={handlePagination}
+              ></PaginationControl>
+            </Col>
+          </Row>
+        )
+      }
     </>
   );
 }

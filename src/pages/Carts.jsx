@@ -1,7 +1,7 @@
 import { Row, Col } from "react-bootstrap";
 import ABreadCrumb from "../components/ABreadCrumb";
 import ItemCart from "../components/Cart/Item";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function Cart() {
   const options = [

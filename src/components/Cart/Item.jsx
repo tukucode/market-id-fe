@@ -11,6 +11,7 @@ export default function Item(props) {
     storeCarts.dataCart.forEach((item) => {
       if (item._id === cart._id) {
         item.qty -= 1;
+        item.sub_total = item.qty * item.price
       }
     });
     dispatch({ type: "SET_CARTS", value: storeCarts.dataCart });
@@ -20,6 +21,7 @@ export default function Item(props) {
     storeCarts.dataCart.forEach((item) => {
       if (item._id === cart._id) {
         item.qty += 1;
+        item.sub_total = item.qty * item.price
       }
     });
     dispatch({ type: "SET_CARTS", value: storeCarts.dataCart });

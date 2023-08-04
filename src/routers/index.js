@@ -19,6 +19,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Products from "../pages/Products";
 import Carts from "../pages/Carts";
+import Invoices from "../pages/Invoices";
 
 // NEGATIVE PAGE
 import Error from "../pages/Error";
@@ -49,6 +50,7 @@ export default createBrowserRouter(
         }
       >
         <Route path="/cart" element={<Carts />} />
+        <Route path="/invoice/:code" element={<Invoices />} />
       </Route>
 
       {/* PAGE LOGIN & REGISTER */}

@@ -34,6 +34,7 @@ export default function Cart() {
                   key={`item-cart-${cart._id}`}
                   index={index}
                   cart={cart}
+                  isAction
                 />
               ))
             ) : (
@@ -42,7 +43,7 @@ export default function Cart() {
           </div>
         </Col>
         <Col md="4" sm="12" xs="12">
-          <CardCheckout />
+          <CardCheckout isCheckout />
         </Col>
       </Row>
     </>

@@ -10,7 +10,7 @@ import formatCurrency from "../../utils/currency";
 import PopupCheckout from "./PopupCheckout";
 
 export default function CardCheckout(props) {
-  const { isCheckout = false, detailInvoice = { address_id: '', sub_total: 0, ppn: 0, total: 0 } } = props
+  const { isCheckout = false, isStatus = true, detailInvoice = { address_id: '', sub_total: 0, ppn: 0, total: 0 }, handleConfirmDone = () => {} } = props
   const [optionsAddress, setOptionsAddress] = useState([])
   const [fullAddress, setFullAddress] = useState('-')
 
@@ -199,7 +199,12 @@ export default function CardCheckout(props) {
                 <Card.Subtitle className="fw-medium">{formatCurrency(detailInvoice.total)}</Card.Subtitle>
               </div>
 
-              <Button variant="success" className="w-100">Confirm Done</Button>
+              {
+                !isStatus && (
+                  <Button variant="success" className="w-100" onClick={handleConfirmDone}>Confirm Done</Button>
+                )
+              }
+
             </>
           )
         }

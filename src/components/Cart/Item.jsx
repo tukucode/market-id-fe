@@ -3,7 +3,7 @@ import formatCurrency from "../../utils/currency";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Item(props) {
-  const { cart, index } = props;
+  const { cart, index, isAction = false } = props;
   const storeCarts = useSelector((state) => state.carts);
   const dispatch = useDispatch();
 
@@ -45,34 +45,48 @@ export default function Item(props) {
 
           <h6 className="ms-2">{cart.name}</h6>
         </div>
-        <h6>{formatCurrency(cart.sub_total)}</h6>
 
-        <div>
-          <Button
-            size="sm"
-            disabled={cart.qty < 2}
-            variant={cart.qty < 2 ? "secondary" : "primary"}
-            onClick={handleRemovePerItem}
-          >
-            <i className="bi bi-dash"></i>
-          </Button>
+        {
+          isAction ? (
+            <>
+              <h6>{formatCurrency(cart.sub_total)}</h6>
 
-          <span className="mx-2 text-dark">{cart.qty}</span>
+              <div>
+                <Button
+                  size="sm"
+                  disabled={cart.qty < 2}
+                  variant={cart.qty < 2 ? "secondary" : "primary"}
+                  onClick={handleRemovePerItem}
+                >
+                  <i className="bi bi-dash"></i>
+                </Button>
 
-          <Button size="sm" variant="primary" onClick={handleAddPerItem}>
-            <i className="bi bi-plus-lg"></i>
-          </Button>
+                <span className="mx-2 text-dark">{cart.qty}</span>
 
-          <Button
-            disabled={storeCarts.dataCart.length < 2}
-            size="sm"
-            variant="danger"
-            className="ms-2"
-            onClick={handleDeleteByIndex}
-          >
-            <i className="bi bi-trash-fill"></i>
-          </Button>
-        </div>
+                <Button size="sm" variant="primary" onClick={handleAddPerItem}>
+                  <i className="bi bi-plus-lg"></i>
+                </Button>
+
+                <Button
+                  disabled={storeCarts.dataCart.length < 2}
+                  size="sm"
+                  variant="danger"
+                  className="ms-2"
+                  onClick={handleDeleteByIndex}
+                >
+                  <i className="bi bi-trash-fill"></i>
+                </Button>
+              </div>
+            </>
+          ) 
+          : (
+            <>
+              <span className="mx-2 text-dark">{cart.qty}</span>
+              <h6>{formatCurrency(cart.sub_total)}</h6>
+            </>
+          )
+        }
+
       </Card.Body>
     </Card>
   );

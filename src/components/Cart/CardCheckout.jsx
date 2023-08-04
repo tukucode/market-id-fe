@@ -9,8 +9,10 @@ import { axiosInstance as axios } from "../../config/https"
 import formatCurrency from "../../utils/currency";
 import PopupCheckout from "./PopupCheckout";
 
-export default function CardCheckout() {
+export default function CardCheckout(props) {
+  const { isCheckout = false, detailInvoice = { address_id: '', sub_total: 0, ppn: 0, total: 0 } } = props
   const [optionsAddress, setOptionsAddress] = useState([])
+  const [fullAddress, setFullAddress] = useState('-')
 
   const dispatch = useDispatch()
 
@@ -22,7 +24,7 @@ export default function CardCheckout() {
 
   // for options address
   useEffect(() => {
-    if (!optionsAddress.length) {
+    if (!optionsAddress.length && isCheckout) {
       // SET LOADING
       dispatch({ type: "SET_LOADING", value: true });
       axios.get('/address/list').then((response) => {
@@ -39,10 +41,31 @@ export default function CardCheckout() {
         dispatch({ type: "SET_LOADING", value: false });
       });
     }
-  }, [optionsAddress, dispatch])
+  }, [optionsAddress, dispatch, isCheckout])
+
+  // for detail address
+  useEffect(() => {
+    if (detailInvoice.address_id.length > 0) {
+      // SET LOADING
+      dispatch({ type: "SET_LOADING", value: true });
+      axios.get(`/address/${detailInvoice.address_id}/detail`).then((response) => {
+        const { address, village, district, regency, province, passcode } = response.data.data
+        setFullAddress(`${address} ${village.name} ${district.name} ${regency.name} ${province.name} ${passcode}`)
+      }).catch((error) => {
+        const message = error.response?.data?.message;
+          toast(handleErrorMessage(message), {
+            position: toast.POSITION.TOP_RIGHT,
+            type: toast.TYPE.ERROR,
+          });
+      })
+      .finally(() => {
+        // SET LOADING
+        dispatch({ type: "SET_LOADING", value: false });
+      });
+    }
+  }, [detailInvoice, dispatch])
 
 
-  const [fullAddress, setFullAddress] = useState('-')
   const [ address, setAddress ] = useState({
     _id: '',
     name: ''
@@ -123,37 +146,63 @@ export default function CardCheckout() {
     <>
       <Card className="w-100">
         <Card.Body>
-          <Form.Label htmlFor="form-addres" className="fw-bold">Address</Form.Label>
-          <Form.Select 
-            id="form-addres"
-            value={address._id}
-            onChange={handleChangeAddress}
-          >
-            <option value=''>Select your address</option>
-            {
-              optionsAddress.map((address, index) => (
-                <option key={`option-address-${index}`} value={address._id}>{address.name}</option>
-              ))
-            }
-          </Form.Select>
-          <Card.Text className="my-2">{fullAddress}</Card.Text>
+        {
+          isCheckout ? (
+            <>
+              <Form.Label htmlFor="form-addres" className="fw-bold">Address</Form.Label>
+              <Form.Select 
+                id="form-addres"
+                value={address._id}
+                onChange={handleChangeAddress}
+              >
+                <option value=''>Select your address</option>
+                {
+                  optionsAddress.map((address, index) => (
+                    <option key={`option-address-${index}`} value={address._id}>{address.name}</option>
+                  ))
+                }
+              </Form.Select>
+              <Card.Text className="my-2">{fullAddress}</Card.Text>
+    
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <Card.Subtitle className="fw-medium">Sub Total</Card.Subtitle>
+                <Card.Subtitle className="fw-medium">{formatCurrency(subTotal)}</Card.Subtitle>
+              </div>
+    
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <Card.Subtitle className="fw-medium">PPN (10%)</Card.Subtitle>
+                <Card.Subtitle className="fw-medium">{formatCurrency(ppn)}</Card.Subtitle>
+              </div>
+    
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <Card.Subtitle className="fw-medium">Total</Card.Subtitle>
+                <Card.Subtitle className="fw-medium">{formatCurrency(total)}</Card.Subtitle>
+              </div>
+    
+              <Button disabled={address._id.length === 0} variant="primary" className="w-100" onClick={() => setShow(true)}>Checkout</Button>
+            </>
+          ) : (
+            <>
+              <Card.Text className="my-2">{fullAddress}</Card.Text>
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <Card.Subtitle className="fw-medium">Sub Total</Card.Subtitle>
+                <Card.Subtitle className="fw-medium">{formatCurrency(detailInvoice.sub_total)}</Card.Subtitle>
+              </div>
 
-          <div className="d-flex justify-content-between align-items-center mb-2">
-            <Card.Subtitle className="fw-medium">Sub Total</Card.Subtitle>
-            <Card.Subtitle className="fw-medium">{formatCurrency(subTotal)}</Card.Subtitle>
-          </div>
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <Card.Subtitle className="fw-medium">PPN (10%)</Card.Subtitle>
+                <Card.Subtitle className="fw-medium">{formatCurrency(detailInvoice.ppn)}</Card.Subtitle>
+              </div>
 
-          <div className="d-flex justify-content-between align-items-center mb-2">
-            <Card.Subtitle className="fw-medium">PPN (10%)</Card.Subtitle>
-            <Card.Subtitle className="fw-medium">{formatCurrency(ppn)}</Card.Subtitle>
-          </div>
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <Card.Subtitle className="fw-medium">Total</Card.Subtitle>
+                <Card.Subtitle className="fw-medium">{formatCurrency(detailInvoice.total)}</Card.Subtitle>
+              </div>
 
-          <div className="d-flex justify-content-between align-items-center mb-2">
-            <Card.Subtitle className="fw-medium">Total</Card.Subtitle>
-            <Card.Subtitle className="fw-medium">{formatCurrency(total)}</Card.Subtitle>
-          </div>
-
-          <Button disabled={address._id.length === 0} color="primary" className="w-100" onClick={() => setShow(true)}>Checkout</Button>
+              <Button variant="success" className="w-100">Confirm Done</Button>
+            </>
+          )
+        }
         </Card.Body>
       </Card>
 

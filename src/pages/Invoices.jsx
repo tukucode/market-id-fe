@@ -73,14 +73,17 @@ export default function Invoices() {
     // SET LOADING
     dispatch({ type: "SET_LOADING", value: true });
     axios.put(`/checkout/${code}/confirm`, { status: true }).then((response) => {
-      console.log('RES', response.data);
+      toast('Confirm Success', {
+        position: toast.POSITION.TOP_RIGHT,
+        type: toast.TYPE.SUCCESS,
+      });
       setIsUpdate(true)
     }).catch((error) => {
       const message = error.response?.data?.message;
-        toast(handleErrorMessage(message), {
-          position: toast.POSITION.TOP_RIGHT,
-          type: toast.TYPE.ERROR,
-        });
+      toast(handleErrorMessage(message), {
+        position: toast.POSITION.TOP_RIGHT,
+        type: toast.TYPE.ERROR,
+      });
     })
     .finally(() => {
       // SET LOADING

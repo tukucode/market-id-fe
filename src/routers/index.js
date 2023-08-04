@@ -9,6 +9,7 @@ import App from "../App";
 
 // LAYOUT PRODUCT
 import LayoutProduct from "../Layouts/LayoutProduct";
+import LayoutCart from "../Layouts/LayoutCart";
 
 // LAYOUT AUTH
 import LayoutAuth from "../Layouts/LayoutAuth";
@@ -28,6 +29,7 @@ const { auth } = store.getState();
 export default createBrowserRouter(
   createRoutesFromElements(
     <Route element={<App />}>
+      {/* PRODUCT */}
       <Route
         element={
           <LayoutAuth auth={auth}>
@@ -36,6 +38,16 @@ export default createBrowserRouter(
         }
       >
         <Route path="/" element={<Products />} />
+      </Route>
+
+      {/* CART */}
+      <Route
+        element={
+          <LayoutAuth auth={auth}>
+            <LayoutCart />
+          </LayoutAuth>
+        }
+      >
         <Route path="/cart" element={<Carts />} />
       </Route>
 

@@ -73,6 +73,9 @@ function TextLinkExample() {
   }
 
   const navigate = useNavigate();
+  function handleProfile () {
+    navigate("/profile")
+  }
   function handleToPageCart() {
     navigate("/cart");
   }
@@ -128,7 +131,11 @@ function TextLinkExample() {
                   onClick={handleToPageCart}
                 >
                   <i className="bi bi-cart-fill"></i>
-                  <span className="sub__heading__5 ms-2">{countQty}</span>
+                  <span className="sub__heading__5">{countQty}</span>
+                </Button>
+
+                <Button variant="outline-light" className="mx-2" onClick={handleProfile}>
+                  Profile
                 </Button>
 
                 <Button variant="light" onClick={handleLogout}>

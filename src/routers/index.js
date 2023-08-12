@@ -10,6 +10,7 @@ import App from "../App";
 // LAYOUT PRODUCT
 import LayoutProduct from "../Layouts/LayoutProduct";
 import LayoutCart from "../Layouts/LayoutCart";
+import LayoutCustomer from "../Layouts/LayoutCustomer";
 
 // LAYOUT AUTH
 import LayoutAuth from "../Layouts/LayoutAuth";
@@ -20,6 +21,7 @@ import Register from "../pages/Register";
 import Products from "../pages/Products";
 import Carts from "../pages/Carts";
 import Invoices from "../pages/Invoices";
+import Profile from "../pages/Profile";
 
 // NEGATIVE PAGE
 import Error from "../pages/Error";
@@ -41,7 +43,7 @@ export default createBrowserRouter(
         <Route path="/" element={<Products />} />
       </Route>
 
-      {/* CART */}
+      {/* CART, INVOICE, PROFILE */}
       <Route
         element={
           <LayoutAuth auth={auth}>
@@ -51,6 +53,15 @@ export default createBrowserRouter(
       >
         <Route path="/cart" element={<Carts />} />
         <Route path="/invoice/:code" element={<Invoices />} />
+      </Route>
+
+      {/* CUSTOMER */}
+      <Route
+        element={
+          <LayoutAuth auth={auth} children={<LayoutCustomer />} />
+        }
+      >
+        <Route path="/profile" element={<Profile />} />
       </Route>
 
       {/* PAGE LOGIN & REGISTER */}

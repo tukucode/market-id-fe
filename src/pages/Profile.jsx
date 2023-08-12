@@ -2,6 +2,7 @@ import { Row, Col } from "react-bootstrap"
 
 import ABreadCrumb from "../components/ABreadCrumb";
 import AListGroup from "../components/AListGroup";
+import CardProfile from "../components/Customer/CardProfile"
 
 export default function Profile() {
   const options = [
@@ -43,7 +44,7 @@ export default function Profile() {
       </Col>
 
       <Col md="9">
-        KANAN
+        <CardProfile />
       </Col>
     </Row>
   )

@@ -27,7 +27,7 @@ export default function CardCheckout(props) {
     if (!optionsAddress.length && isCheckout) {
       // SET LOADING
       dispatch({ type: "SET_LOADING", value: true });
-      axios.get('/address/list').then((response) => {
+      axios.get('/api/address/list').then((response) => {
         setOptionsAddress(response.data.data)
       }).catch((error) => {
         const message = error.response?.data?.message;
@@ -48,7 +48,7 @@ export default function CardCheckout(props) {
     if (detailInvoice.address_id.length > 0) {
       // SET LOADING
       dispatch({ type: "SET_LOADING", value: true });
-      axios.get(`/address/${detailInvoice.address_id}/detail`).then((response) => {
+      axios.get(`/api/address/${detailInvoice.address_id}/detail`).then((response) => {
         const { address, village, district, regency, province, passcode } = response.data.data
         setFullAddress(`${address} ${village.name} ${district.name} ${regency.name} ${province.name} ${passcode}`)
       }).catch((error) => {
@@ -118,7 +118,7 @@ export default function CardCheckout(props) {
 
     // SET LOADING
     dispatch({ type: "SET_LOADING", value: true });
-    axios.post('/checkout/new', dataCheckout).then((response) => {
+    axios.post('/api/checkout/new', dataCheckout).then((response) => {
       const invoice = response.data.data.invoice
       
       toast('Checkout Success', {

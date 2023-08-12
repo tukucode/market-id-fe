@@ -2,9 +2,11 @@ import axios from "axios";
 import store from "../stores";
 const { auth } = store.getState();
 
-export const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
-});
+// export const axiosInstance = axios.create({
+//   baseURL: '/api-base',
+// });
+
+export const axiosInstance =  axios
 
 axiosInstance.interceptors.request.use(
   function (config) {

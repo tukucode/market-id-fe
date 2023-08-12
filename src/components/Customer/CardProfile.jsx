@@ -47,7 +47,7 @@ export default function CardProfile() {
     if (isLoad) {
       // SET LOADING
       dispatch({ type: "SET_LOADING", value: true });
-      axios.get(`users/${_id}/detail`).then((response) => {
+      axios.get(`/api/users/${_id}/detail`).then((response) => {
         const detail =  response.data.data
 
         // set urlImage
@@ -79,7 +79,7 @@ export default function CardProfile() {
 
     // SET LOADING
     dispatch({ type: "SET_LOADING", value: true });
-    axios.put(`users/${_id}/update`, formData).then((response) => {
+    axios.put(`/api/users/${_id}/update`, formData).then((response) => {
       toast(response.data.message, {
         position: toast.POSITION.TOP_RIGHT,
         type: toast.TYPE.SUCCESS,

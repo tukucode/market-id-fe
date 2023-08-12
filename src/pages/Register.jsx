@@ -46,7 +46,7 @@ export default function Register() {
     // SET LOADING
     dispatch({ type: "SET_LOADING", value: true });
     axios
-      .post("/users/new", form)
+      .post("/api/users/new", form)
       .then((response) => {
         const message = response.data.message;
 

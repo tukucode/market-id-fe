@@ -32,7 +32,7 @@ export default function Products() {
       // SET LOADING
       dispatch({ type: "SET_LOADING", value: true });
       axios
-        .get("/products", { params: { ...storeParamsProduct } })
+        .get("/api/products", { params: { ...storeParamsProduct } })
         .then((response) => {
           setData(response.data.data);
           setPagination(response.data.pagination);

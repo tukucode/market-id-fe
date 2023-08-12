@@ -43,7 +43,7 @@ export default createBrowserRouter(
         <Route path="/" element={<Products />} />
       </Route>
 
-      {/* CART, INVOICE, PROFILE */}
+      {/* CART & INVOICE */}
       <Route
         element={
           <LayoutAuth auth={auth}>

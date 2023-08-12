@@ -121,7 +121,7 @@ export default function Invoices() {
           </Card>
         </Col>
         <Col md="8" sm="12" xs="12">
-          <div style={{ height: '25rem', overflowY: 'auto' }}>
+          <div style={{ height: 'calc(100vh - 21.5rem)', overflowY: 'auto' }}>
             {carts.length ? (
               carts.map((cart, index) => (
                 <ItemCart

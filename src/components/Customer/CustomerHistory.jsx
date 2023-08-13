@@ -104,14 +104,14 @@ export default function CustomerHistory() {
       {
         !dataHistory.length ? 
         (
-          <div className="d-flex justify-content-center align-items-center" style={{ height: 'calc(100vh - 20rem)', overflowY: 'auto'}}>
+          <div className="d-flex justify-content-center align-items-center" style={{ maxHeight: 'calc(100vh - 20rem)', overflowY: 'auto'}}>
             <h4>Not Found</h4>
           </div>
         ) 
         : (
           <>
             {/* CARD HISTORY */}
-            <div style={{ height: 'calc(100vh - 20rem)', overflowY: 'auto'}} className="mb-4">
+            <div style={{ maxHeight: 'calc(100vh - 20rem)', overflowY: 'auto'}} className="mb-4">
               {
                 dataHistory.map((detail, index) => (
                   <CardHistory key={`card-history-${index}-${detail.invoice}`} detail={detail} />

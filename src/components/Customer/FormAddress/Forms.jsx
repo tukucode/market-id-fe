@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-expressions */
 import { useEffect, useState } from "react"
 import { Card, Row, Col, Form, Button } from "react-bootstrap"
 import { useFormik } from "formik"
@@ -50,9 +52,34 @@ const validationSchema = Yup.object({
   address: Yup.string().required('Field address is required'),
 });
 
-export default function FormAddress() {
-  const dispatch = useDispatch()
+export default function FormAddress({ isEdit = false, detail = {} }) {
+  // FORMIK
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: handleOnSubmit,
+  });
 
+  // PROPS Detail
+  useEffect(() => {
+    if (isEdit && JSON.stringify(detail) !== "{}") {
+      formik.setFieldValue('name', detail.name)
+      formik.setFieldValue('passcode', detail.passcode)
+      formik.setFieldValue('address', detail.address)
+
+      setIsLoadProvince(true)
+      getOptionsDistrict(detail.regency._id)
+      getOptionsVillage(detail.district._id)
+
+      handleChangeProvince({target: { name : 'province._id', value: detail.province._id }}, 'province.name')
+      handleChangeRegency({target: { name : 'regency._id', value: detail.regency._id }}, 'regency.name')
+      handleChangeDistirct({target: { name : 'district._id', value: detail.district._id }}, 'district.name')
+      handleChangeVillage({target: { name : 'village._id', value: detail.village._id }}, 'village.name')
+    }
+  }, [isEdit, detail])
+  
+
+  const dispatch = useDispatch()
   const [isLoadProvince, setIsLoadProvince] = useState(true)
   const [dataProvince, setDataProvince] =  useState([])
   useEffect(() => {
@@ -79,12 +106,6 @@ export default function FormAddress() {
     }
   }, [isLoadProvince, dispatch])
 
-   // FORMIK
-   const formik = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit: handleOnSubmit,
-  });
 
   function handleIsError (key, sub_key) {
     if (sub_key) return (formik.touched[key] && formik.errors[key]) && formik.touched[key][sub_key] && formik.errors[key][sub_key]
@@ -165,7 +186,7 @@ export default function FormAddress() {
       formik.setFieldValue(event.target.name, event.target.value);
       const findByID = dataDistrict.find((disctrict) => disctrict.id === event.target.value)
       formik.setFieldValue(key, findByID ? findByID.name : '');
-      
+     
       if (findByID) getOptionsVillage(findByID.id)
 
       formik.setFieldValue("village", { _id: '', name: ''});
@@ -173,8 +194,8 @@ export default function FormAddress() {
   
   // Village
   const [dataVillage, setDataVillage] =  useState([])
+  // SET LOADING
   function getOptionsVillage (id) {
-    // SET LOADING
     dispatch({ type: "SET_LOADING", value: true });
     axios
     .get(`/api-wilayah/villages/${id}.json`)
@@ -197,17 +218,27 @@ export default function FormAddress() {
   function handleChangeVillage(event, key) {
     formik.setFieldValue(event.target.name, event.target.value);
     const findByID = dataVillage.find((village) => village.id === event.target.value)
+
     formik.setFieldValue(key, findByID ? findByID.name : '');
    }
 
   const navigate = useNavigate()
   // SUBMIT
   function handleOnSubmit(values) {
+    if (!isEdit) createAddress (values)
+    else editeAddress(values)
+  }
+
+  function createAddress (payload) {
     // SET LOADING
     dispatch({ type: "SET_LOADING", value: true });
     axios
-    .post(`/api/address/new`, values)
+    .post(`/api/address/new`, payload)
     .then((response) => {
+      toast(response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+        type: toast.TYPE.SUCCESS,
+      });
       navigate('/address')
     })
     .catch((error) => {
@@ -221,6 +252,36 @@ export default function FormAddress() {
       // SET LOADING
       dispatch({ type: "SET_LOADING", value: false });
     });
+  }
+
+  function editeAddress (payload) {
+    // SET LOADING
+    dispatch({ type: "SET_LOADING", value: true });
+    axios
+    .put(`/api/address/${detail._id}/update`, payload)
+    .then((response) => {
+      toast(response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+        type: toast.TYPE.SUCCESS,
+      });
+      navigate('/address')
+    })
+    .catch((error) => {
+      const message = error.response?.data?.message;
+      toast(handleErrorMessage(message), {
+        position: toast.POSITION.TOP_RIGHT,
+        type: toast.TYPE.ERROR,
+      });
+    })
+    .finally(() => {
+      // SET LOADING
+      dispatch({ type: "SET_LOADING", value: false });
+    });
+  }
+
+  function handleCancel() {
+    formik.resetForm()
+    navigate('/address')
   }
 
   return (
@@ -376,8 +437,11 @@ export default function FormAddress() {
               </Form.Group>
             </Col>
 
-            <Col xs="12">
-              <Button type="submit" variant="success">Create</Button>
+            <Col xs="12" className="d-flex justify-content-end align-items-center mt-3">
+              { isEdit && (
+                <Button type="button" variant="light" onClick={handleCancel} className="me-2">Cancel</Button>
+              )}
+              <Button type="submit" variant="success">{ isEdit ? 'Update' : 'Create'}</Button>
             </Col>
           </Row>
         </Form>

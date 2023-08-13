@@ -1,3 +1,11 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "version": 2,
+  "env": {
+    "REACT_APP_API_BASE_URL": "https://merket-id.vercel.app/api/v1",
+    "REACT_APP_API_WILAYAH": "http://www.emsifa.com/api-wilayah-indonesia/api"
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/api-wilayah/(.*)", "destination": "/api-wilayah" }
+  ]
 }

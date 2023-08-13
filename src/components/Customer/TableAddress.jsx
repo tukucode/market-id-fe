@@ -1,13 +1,13 @@
 import { Table, Button } from "react-bootstrap"
-export default function TableAddress({ list }) {
+import { useNavigate } from "react-router-dom"
+
+export default function TableAddress({ list, handleDelete = () => {} }) {
+  const navigate = useNavigate()
 
   function handleEdit(_id) {
-    console.log('EDIT', _id);
+    navigate(`/address/edit/${_id}`)
   }
 
-  function handleDelete(_id) {
-    console.log('DELETE', _id);
-  }
   return (
     <Table responsive="sm">
       <thead>

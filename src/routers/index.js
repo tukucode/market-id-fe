@@ -24,6 +24,8 @@ import Invoices from "../pages/Invoices";
 import Profile from "../pages/Profile";
 import History from "../pages/History";
 import Address from "../pages/Address";
+import FormAddressCreate from "../components/Customer/FormAddress/Create";
+import FormAddressEdit from "../components/Customer/FormAddress/Edit";
 
 // NEGATIVE PAGE
 import Error from "../pages/Error";
@@ -66,6 +68,8 @@ export default createBrowserRouter(
         <Route path="/profile" element={<Profile />} />
         <Route path="/history" element={<History />} />
         <Route path="/address" element={<Address />} />
+        <Route path="/address/create" element={<FormAddressCreate />} />
+        <Route path="/address/edit/:id" element={<FormAddressEdit />} />
       </Route>
 
       {/* PAGE LOGIN & REGISTER */}

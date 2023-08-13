@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Card, Button, Row, Col, InputGroup, Form } from "react-bootstrap"
 import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
 import TableAddress from "./TableAddress"
 import { PaginationControl } from "react-bootstrap-pagination-control"
@@ -11,6 +12,11 @@ import { axiosInstance as axios } from "../../config/https"
 
 export default function CardAddress() {
   const dispatch = useDispatch()
+
+  const navigate = useNavigate()
+  function handleCreateAddress() {
+    navigate('/address/create')
+  }
 
   const [isLoad, setIsLoad] = useState(true)
   const [dataAddress, setDataAddress] = useState([])
@@ -70,6 +76,27 @@ export default function CardAddress() {
     }
   }, [isLoad, params, dispatch])
 
+  function handleDelete(id) {
+    // SET LOADING
+    dispatch({ type: "SET_LOADING", value: true });
+    axios
+      .delete(`/api/address/${id}/destroy`)
+      .then((response) => {
+        setIsLoad(true)
+      })
+      .catch((error) => {
+        const message = error.response?.data?.message;
+        toast(handleErrorMessage(message), {
+          position: toast.POSITION.TOP_RIGHT,
+          type: toast.TYPE.ERROR,
+        });
+      })
+      .finally(() => {
+        // SET LOADING
+        dispatch({ type: "SET_LOADING", value: false });
+      });
+  }
+  
   return (
     <Card>
       <Card.Body>
@@ -105,6 +132,7 @@ export default function CardAddress() {
             <Button 
               variant="success"
               className="text-truncate w-100 mt-lg-0 mt-2"
+              onClick={handleCreateAddress}
             >
               Create <i className="bi bi-pencil-fill"></i>
             </Button>
@@ -112,7 +140,7 @@ export default function CardAddress() {
 
           {/* TABLE */}
           <Col xs="12" className="mt-md-0 mt-2">
-            <TableAddress list={dataAddress} />
+            <TableAddress list={dataAddress} handleDelete={handleDelete} />
           </Col>
 
           {/* PAGINATION */}

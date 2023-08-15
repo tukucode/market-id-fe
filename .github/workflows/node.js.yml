@@ -28,7 +28,8 @@ jobs:
       - run: |
           export REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }}
           export REACT_APP_API_WILAYAH=${{ secrets.REACT_APP_API_WILAYAH }}
-          npm run build && npm run install --production --ignore-scripts --prefer-offline
+          npm run build --if-present
+          npm ci
     #  - run: npm run build --if-present
     #  - run: npm ci
     # - run: npm test

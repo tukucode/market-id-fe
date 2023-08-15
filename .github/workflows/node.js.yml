@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -25,11 +25,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: |
-          export REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }}
-          export REACT_APP_API_WILAYAH=${{ secrets.REACT_APP_API_WILAYAH }}
-          npm run build --if-present
-          npm ci
-    #  - run: npm run build --if-present
-    #  - run: npm ci
+      - run: export REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }}
+      - run: export REACT_APP_API_WILAYAH=${{ secrets.REACT_APP_API_WILAYAH }}
+      - run: npm run build --if-present
+      - run: npm ci
     # - run: npm test

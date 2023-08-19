@@ -52,7 +52,7 @@ export default function FormAddressEdit() {
     // SET LOADING
     dispatch({ type: "SET_LOADING", value: true });
     axios
-      .get(`/api/address/${id}/detail`)
+      .get(`${process.env.REACT_APP_API_BASE_URL}/address/${id}/detail`)
       .then((response) => {
         setDetail(response.data.data)
       })

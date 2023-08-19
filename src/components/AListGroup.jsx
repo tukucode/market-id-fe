@@ -14,7 +14,7 @@ export default function AListGroup({ menus }) {
 
     dispatch({ type: "SET_LOADING", value: true });
     axios
-      .post(`/api/users/${_id}/logout`)
+      .post(`${process.env.REACT_APP_API_BASE_URL}/users/${_id}/logout`)
       .then((response) => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -54,7 +54,7 @@ export default function AListGroup({ menus }) {
           </ListGroup.Item>
         ))
       }
-      <ListGroup.Item onClick={() => handleLogout()}>
+      <ListGroup.Item action onClick={() => handleLogout()}>
         Logout
       </ListGroup.Item>
     </ListGroup>

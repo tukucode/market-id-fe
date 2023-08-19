@@ -46,7 +46,7 @@ export default function Register() {
     // SET LOADING
     dispatch({ type: "SET_LOADING", value: true });
     axios
-      .post("/api/users/new", form)
+      .post(`${process.env.REACT_APP_API_BASE_URL}/users/new`, form)
       .then((response) => {
         const message = response.data.message;
 

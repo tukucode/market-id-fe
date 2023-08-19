@@ -41,7 +41,7 @@ export default function Login() {
     dispatch({ type: "SET_LOADING", value: true });
 
     axios
-      .post("/api/users/login", form)
+      .post(`${process.env.REACT_APP_API_BASE_URL}/users/login`, form)
       .then((response) => {
         const { _id, token, role } = response.data.data;
 

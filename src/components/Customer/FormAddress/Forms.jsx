@@ -49,7 +49,7 @@ const validationSchema = Yup.object({
     _id: Yup.string().required('Field disctrict is required')
   }),
   passcode: Yup.string().required('Field passcode is required'),
-  address: Yup.string().required('Field address is required'),
+  address: Yup.string().required('Field address is required').min(10),
 });
 
 export default function FormAddress({ isEdit = false, detail = {} }) {
@@ -233,7 +233,7 @@ export default function FormAddress({ isEdit = false, detail = {} }) {
     // SET LOADING
     dispatch({ type: "SET_LOADING", value: true });
     axios
-    .post(`/api/address/new`, payload)
+    .post(`${process.env.REACT_APP_API_BASE_URL}/address/new`, payload)
     .then((response) => {
       toast(response.data.message, {
         position: toast.POSITION.TOP_RIGHT,
@@ -258,7 +258,7 @@ export default function FormAddress({ isEdit = false, detail = {} }) {
     // SET LOADING
     dispatch({ type: "SET_LOADING", value: true });
     axios
-    .put(`/api/address/${detail._id}/update`, payload)
+    .put(`${process.env.REACT_APP_API_BASE_URL}/address/${detail._id}/update`, payload)
     .then((response) => {
       toast(response.data.message, {
         position: toast.POSITION.TOP_RIGHT,

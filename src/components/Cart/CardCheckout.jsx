@@ -11,7 +11,7 @@ import PopupCheckout from "./PopupCheckout";
 
 export default function CardCheckout(props) {
   const { isCheckout = false, isStatus = true, detailInvoice = { address_id: '', sub_total: 0, ppn: 0, total: 0 }, handleConfirmDone = () => {} } = props
-  const [optionsAddress, setOptionsAddress] = useState([])
+  const [optionsAddress, setOptionsAddress] = useState(null)
   const [fullAddress, setFullAddress] = useState('-')
 
   const dispatch = useDispatch()
@@ -24,10 +24,10 @@ export default function CardCheckout(props) {
 
   // for options address
   useEffect(() => {
-    if (!optionsAddress.length && isCheckout) {
+    if (optionsAddress === null && isCheckout) {
       // SET LOADING
       dispatch({ type: "SET_LOADING", value: true });
-      axios.get('/api/address/list').then((response) => {
+      axios.get(`${process.env.REACT_APP_API_BASE_URL}/address/list`).then((response) => {
         setOptionsAddress(response.data.data)
       }).catch((error) => {
         const message = error.response?.data?.message;
@@ -48,7 +48,7 @@ export default function CardCheckout(props) {
     if (detailInvoice.address_id.length > 0) {
       // SET LOADING
       dispatch({ type: "SET_LOADING", value: true });
-      axios.get(`/api/address/${detailInvoice.address_id}/detail`).then((response) => {
+      axios.get(`${process.env.REACT_APP_API_BASE_URL}/address/${detailInvoice.address_id}/detail`).then((response) => {
         const { address, village, district, regency, province, passcode } = response.data.data
         setFullAddress(`${address} ${village.name} ${district.name} ${regency.name} ${province.name} ${passcode}`)
       }).catch((error) => {
@@ -118,7 +118,7 @@ export default function CardCheckout(props) {
 
     // SET LOADING
     dispatch({ type: "SET_LOADING", value: true });
-    axios.post('/api/checkout/new', dataCheckout).then((response) => {
+    axios.post(`${process.env.REACT_APP_API_BASE_URL}/checkout/new`, dataCheckout).then((response) => {
       const invoice = response.data.data.invoice
       
       toast('Checkout Success', {
@@ -157,7 +157,7 @@ export default function CardCheckout(props) {
               >
                 <option value=''>Select your address</option>
                 {
-                  optionsAddress.map((address, index) => (
+                  optionsAddress && optionsAddress.map((address, index) => (
                     <option key={`option-address-${index}`} value={address._id}>{address.name}</option>
                   ))
                 }

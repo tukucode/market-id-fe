@@ -15,8 +15,17 @@ export default function CardHistory({ detail }) {
           alt={detail.cart[0].name}
           style={{ width: '100px', height: '100px', aspectRatio: '3/2', objectFit: 'contain'  }}
         />
-        <Card.Text className="m-0 sub__heading__5 text-truncate">invoices #{detail.invoice}</Card.Text>
+        <Card.Text className="m-0 sub__heading__5 text-truncate">{detail.invoice}</Card.Text>
         <Card.Text className="m-0 sub__heading__5">{ formatCurrency(detail.total) }</Card.Text>
+        
+        {
+          detail.status ? (
+            <Card.Text className="m-0 sub__heading__5 text-truncate text-success">Payment Success</Card.Text>
+          ) : (
+            <Card.Text className="m-0 sub__heading__5 text-truncate text-warning">Waiting Payment</Card.Text>
+          )
+        }
+        
         <Button variant="success" size="sm" onClick={() => handleDetailInvoice(detail.invoice) }><i className="bi bi-eye-fill"></i></Button>
       </Card.Body>
     </Card>

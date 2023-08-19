@@ -1,6 +1,6 @@
 import { Form} from "react-bootstrap"
 
-export default function ASelect({ id, label, name, value, handleBlur, handleChange = () => {}, keyChange, options, isError, msgError }) {
+export default function ASelect({ id, label, name, value, handleBlur, handleChange = () => {}, keyChange, options = [], isError, msgError }) {
   
   return (
     <Form.Group className="mt-lg-0 mt-2 mb-2">

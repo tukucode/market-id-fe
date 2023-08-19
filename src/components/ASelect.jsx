@@ -17,7 +17,7 @@ export default function ASelect({ id, label, name, value, handleBlur, handleChan
       >
         <option value="">Select option</option>
         {
-          options.map((item) => (
+          options.length && options.map((item) => (
             <option key={`option-${item.name}`} value={item.id}>{item.name}</option>
           ))
         }

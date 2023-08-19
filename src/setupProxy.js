@@ -1,12 +1,12 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-const proxyBaseUrl = {
-  target: process.env.REACT_APP_API_BASE_URL || '',
-  changeOrigin: true,
-  pathRewrite: {
-    "^/api": "",
-  },
-}
+// const proxyBaseUrl = {
+//   target: process.env.REACT_APP_API_BASE_URL || '',
+//   changeOrigin: true,
+//   pathRewrite: {
+//     "^/api": "",
+//   },
+// }
 
 const proxyWilayah = {
   target: process.env.REACT_APP_API_WILAYAH || '',
@@ -17,6 +17,6 @@ const proxyWilayah = {
 }
 
 module.exports = function(app) {
-  app.use('/api', createProxyMiddleware(proxyBaseUrl))
+  // app.use('/api', createProxyMiddleware(proxyBaseUrl))
   app.use('/api-wilayah', createProxyMiddleware(proxyWilayah))
 };

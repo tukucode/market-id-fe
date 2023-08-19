@@ -45,6 +45,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://www.emsifa.com/api-wilayah-indonesia/api"
+  }
 }

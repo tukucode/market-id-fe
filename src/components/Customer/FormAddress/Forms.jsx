@@ -87,9 +87,9 @@ export default function FormAddress({ isEdit = false, detail = {} }) {
       // SET LOADING
       dispatch({ type: "SET_LOADING", value: true });
       axios
-        .get('/provinces.json')
+        .get(`${process.env.REACT_APP_API_BASE_URL}/provinces`)
         .then((response) => {
-          setDataProvince(response.data)
+          setDataProvince(response.data.data)
         })
         .catch((error) => {
           const message = error.response?.data?.message;
@@ -131,9 +131,9 @@ export default function FormAddress({ isEdit = false, detail = {} }) {
    // SET LOADING
    dispatch({ type: "SET_LOADING", value: true });
    axios
-     .get(`/regencies/${id}.json`)
+     .get(`${process.env.REACT_APP_API_BASE_URL}/regencies/${id}`)
      .then((response) => {
-        setDataRegency(response.data)
+        setDataRegency(response.data.data)
      })
      .catch((error) => {
        const message = error.response?.data?.message;
@@ -165,9 +165,9 @@ export default function FormAddress({ isEdit = false, detail = {} }) {
     // SET LOADING
     dispatch({ type: "SET_LOADING", value: true });
     axios
-      .get(`/districts/${id}.json`)
+      .get(`${process.env.REACT_APP_API_BASE_URL}/districts/${id}`)
       .then((response) => {
-        setDataDistrict(response.data)
+        setDataDistrict(response.data.data)
       })
       .catch((error) => {
         const message = error.response?.data?.message;
@@ -198,9 +198,9 @@ export default function FormAddress({ isEdit = false, detail = {} }) {
   function getOptionsVillage (id) {
     dispatch({ type: "SET_LOADING", value: true });
     axios
-    .get(`/villages/${id}.json`)
+    .get(`${process.env.REACT_APP_API_BASE_URL}/villages/${id}`)
     .then((response) => {
-      setDataVillage(response.data)
+      setDataVillage(response.data.data)
     })
     .catch((error) => {
       const message = error.response?.data?.message;
@@ -226,7 +226,29 @@ export default function FormAddress({ isEdit = false, detail = {} }) {
   // SUBMIT
   function handleOnSubmit(values) {
     if (!isEdit) createAddress (values)
-    else editeAddress(values)
+    else {
+      const regency = dataRegency.find((regency) => regency.id === values.regency._id)
+      const district = dataDistrict.find((disctrict) => disctrict.id === values.district._id)
+      const village = dataVillage.find((village) => village.id === values.village._id)
+      
+      const data = {
+        ...values,
+        regency: {
+          _id: regency.id,
+          name: regency.name
+        },
+        district: {
+          _id: district.id,
+          name: district.name
+        },
+        village: {
+          _id: village.id,
+          name: village.name
+        }
+      }
+
+      editeAddress(data)
+    }
   }
 
   function createAddress (payload) {

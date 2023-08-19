@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import handleErrorMessage from "../../utils/handleErrorMessage";
@@ -18,7 +18,7 @@ import {
 
 function TextLinkExample() {
   // STORE AUTH
-  const { token, user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const { q, sort_by } = useSelector((state) => state.product);
   const { dataCart } = useSelector((state) => state.carts);
 
@@ -123,39 +123,22 @@ function TextLinkExample() {
             </Form>
           </Nav>
           <Nav>
-            {token ? (
-              <>
-                <Button
-                  disabled={countQty === 0}
-                  className="me-md-3 my-md-0 my-3 me-0 btn btn-outline-light d-flex justify-content-center align-items-center"
-                  onClick={handleToPageCart}
-                >
-                  <i className="bi bi-cart-fill"></i>
-                  <span className="sub__heading__5">{countQty}</span>
-                </Button>
+            <Button
+              disabled={countQty === 0}
+              className="me-md-3 my-md-0 my-3 me-0 btn btn-outline-light d-flex justify-content-center align-items-center"
+              onClick={handleToPageCart}
+            >
+              <i className="bi bi-cart-fill"></i>
+              <span className="sub__heading__5">{countQty}</span>
+            </Button>
 
-                <Button variant="outline-light" className="mx-2" onClick={handleProfile}>
-                  Profile
-                </Button>
+            <Button variant="outline-light" className="mx-md-2 mx-0" onClick={handleProfile}>
+              Profile
+            </Button>
 
-                <Button variant="light" onClick={handleLogout}>
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                <Link
-                  to="/login"
-                  className="me-md-3 my-md-0 my-3 me-0 btn btn-outline-light"
-                >
-                  Login
-                </Link>
-
-                <Link to="/register" className="text-primary btn btn-light">
-                  Register
-                </Link>
-              </>
-            )}
+            <Button variant="light" className="my-md-0 my-3" onClick={handleLogout}>
+              Logout
+            </Button>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -87,7 +87,7 @@ export default function FormAddress({ isEdit = false, detail = {} }) {
       // SET LOADING
       dispatch({ type: "SET_LOADING", value: true });
       axios
-        .get('/api-wilayah/provinces.json')
+        .get('/provinces.json')
         .then((response) => {
           setDataProvince(response.data)
         })
@@ -131,7 +131,7 @@ export default function FormAddress({ isEdit = false, detail = {} }) {
    // SET LOADING
    dispatch({ type: "SET_LOADING", value: true });
    axios
-     .get(`/api-wilayah/regencies/${id}.json`)
+     .get(`/regencies/${id}.json`)
      .then((response) => {
         setDataRegency(response.data)
      })
@@ -165,7 +165,7 @@ export default function FormAddress({ isEdit = false, detail = {} }) {
     // SET LOADING
     dispatch({ type: "SET_LOADING", value: true });
     axios
-      .get(`/api-wilayah/districts/${id}.json`)
+      .get(`/districts/${id}.json`)
       .then((response) => {
         setDataDistrict(response.data)
       })
@@ -198,7 +198,7 @@ export default function FormAddress({ isEdit = false, detail = {} }) {
   function getOptionsVillage (id) {
     dispatch({ type: "SET_LOADING", value: true });
     axios
-    .get(`/api-wilayah/villages/${id}.json`)
+    .get(`/villages/${id}.json`)
     .then((response) => {
       setDataVillage(response.data)
     })

@@ -63,18 +63,31 @@ export default function FormAddress({ isEdit = false, detail = {} }) {
   // PROPS Detail
   useEffect(() => {
     if (isEdit && JSON.stringify(detail) !== "{}") {
+      // SET LOADING
+      dispatch({ type: "SET_LOADING", value: true });
       formik.setFieldValue('name', detail.name)
       formik.setFieldValue('passcode', detail.passcode)
       formik.setFieldValue('address', detail.address)
 
-      setIsLoadProvince(true)
+      // Get List Options
       getOptionsDistrict(detail.regency._id)
       getOptionsVillage(detail.district._id)
+      getOptionsRegency(detail.province._id)
+      setIsLoadProvince(true)
 
+      // Assignt Value _id and name
       handleChangeProvince({target: { name : 'province._id', value: detail.province._id }}, 'province.name')
-      handleChangeRegency({target: { name : 'regency._id', value: detail.regency._id }}, 'regency.name')
-      handleChangeDistirct({target: { name : 'district._id', value: detail.district._id }}, 'district.name')
-      handleChangeVillage({target: { name : 'village._id', value: detail.village._id }}, 'village.name')
+      
+      const timeout = setTimeout(() => {
+        // Assignt Value _id and name
+        handleChangeRegency({target: { name : 'regency._id', value: detail.regency._id }}, 'regency.name')
+        handleChangeDistirct({target: { name : 'district._id', value: detail.district._id }}, 'district.name')
+        handleChangeVillage({target: { name : 'village._id', value: detail.village._id }}, 'village.name')
+
+        // SET LOADING
+        dispatch({ type: "SET_LOADING", value: false });
+        clearTimeout(timeout)
+      }, 1000)
     }
   }, [isEdit, detail])
   

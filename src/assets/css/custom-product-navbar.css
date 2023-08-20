@@ -1,0 +1,57 @@
+/* WHIDTH SEARCH NAVBAR */
+.container__srearch {
+  width: 55%;
+}
+
+.select__search {
+  width: 15%;
+}
+
+.input__search {
+  width: 50% !important;
+}
+
+/* LG VIEW */
+@media (max-width: 991.98px) {
+  .container__srearch {
+    width: 80%;
+  }
+
+  .select__search {
+    width: 40%;
+  }
+
+  .input__search {
+    width: 40% !important;
+  }
+}
+
+/* MD VIEW */
+@media (max-width: 767.98px) {
+  .container__srearch {
+    width: 100%;
+  }
+
+  .select__search {
+    width: 50%;
+  }
+
+  .input__search {
+    width: 50% !important;
+  }
+}
+
+/* SMALL VIEW */
+@media (max-width: 575.98px) {
+  .container__srearch {
+    width: 100%;
+  }
+
+  .select__search {
+    width: 60%;
+  }
+
+  .input__search {
+    width: 40% !important;
+  }
+}

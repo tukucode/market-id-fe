@@ -1,0 +1,138 @@
+/* HEADING OR TITLE*/
+.heading__1 {
+  /* H1 */
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.heading__2 {
+  /* H2 */
+  font-size: 1.75rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.heading__3 {
+  /* H3 */
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.heading__4 {
+  /* H4 */
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.heading__5 {
+  /* H5 */
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.heading__6 {
+  /* H6 */
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+/* SUB HEADING OR SUB TITLE*/
+.sub__heading__1 {
+  /* S1 */
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.sub__heading__2 {
+  /* S2 */
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.sub__heading__3 {
+  /* S3 */
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.sub__heading__4 {
+  /* S4 */
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.sub__heading__5 {
+  /* S5 */
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+/* PARAGRAPH OR TEXT */
+.text__1 {
+  /* P1 */
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.text__2 {
+  /* P2 */
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.text__3 {
+  /* P3 */
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.text__4 {
+  /* P4 */
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.text__5 {
+  /* P5 */
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.text__6 {
+  /* P6 */
+  font-size: 0.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

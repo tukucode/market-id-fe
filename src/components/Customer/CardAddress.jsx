@@ -1,54 +1,54 @@
-import { useEffect, useState } from "react"
-import { Card, Button, Row, Col, InputGroup, Form } from "react-bootstrap"
-import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { Card, Button, Row, Col, InputGroup, Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import TableAddress from "./TableAddress"
-import { PaginationControl } from "react-bootstrap-pagination-control"
+import TableAddress from "./TableAddress";
+import { PaginationControl } from "react-bootstrap-pagination-control";
 
-import { toast } from "react-toastify"
-import handleErrorMessage from "../../utils/handleErrorMessage"
-import { axiosInstance as axios } from "../../config/https"
+import { toast } from "react-toastify";
+import handleErrorMessage from "../../utils/handleErrorMessage";
+import { axiosInstance as axios } from "../../config/https";
 
 export default function CardAddress() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   function handleCreateAddress() {
-    navigate('/address/create')
+    navigate("/address/create");
   }
 
-  const [isLoad, setIsLoad] = useState(true)
-  const [dataAddress, setDataAddress] = useState([])
+  const [isLoad, setIsLoad] = useState(true);
+  const [dataAddress, setDataAddress] = useState([]);
   const [params, setParams] = useState({
-    q: '',
-    sort_by: 'desc',
+    q: "",
+    sort_by: "desc",
     page: 1,
     per_page: 10,
   });
-  const [totalData, setTotalData] = useState(0)
+  const [totalData, setTotalData] = useState(0);
 
   function handleChange(event) {
-    const key = event.target.name
-    setParams({...params, [key]: event.target.value})
-    setIsLoad(true)
+    const key = event.target.name;
+    setParams({ ...params, [key]: event.target.value });
+    setIsLoad(true);
   }
 
   function handleChangeSearch(event) {
-    const key = event.target.name
-    setParams({...params, [key]: event.target.value})
+    const key = event.target.name;
+    setParams({ ...params, [key]: event.target.value, page: 1 });
 
-    if (event.target.value.length === 0) setIsLoad(true)
+    if (event.target.value.length === 0) setIsLoad(true);
   }
 
   function handleSubmit(event) {
-    event.preventDefault()
-    setIsLoad(true)
+    event.preventDefault();
+    setIsLoad(true);
   }
 
   function handlePagination(page) {
-    setParams({...params, page})
-    setIsLoad(true)
+    setParams({ ...params, page });
+    setIsLoad(true);
   }
 
   useEffect(() => {
@@ -56,10 +56,12 @@ export default function CardAddress() {
       // SET LOADING
       dispatch({ type: "SET_LOADING", value: true });
       axios
-        .get(`${process.env.REACT_APP_API_BASE_URL}/address/list`, { params: {...params } })
+        .get(`${process.env.REACT_APP_API_BASE_URL}/address/list`, {
+          params: { ...params },
+        })
         .then((response) => {
-          setDataAddress(response.data.data)
-          setTotalData(response.data.pagination.total)
+          setDataAddress(response.data.data);
+          setTotalData(response.data.pagination.total);
         })
         .catch((error) => {
           const message = error.response?.data?.message;
@@ -71,10 +73,10 @@ export default function CardAddress() {
         .finally(() => {
           // SET LOADING
           dispatch({ type: "SET_LOADING", value: false });
-          setIsLoad(false)
+          setIsLoad(false);
         });
     }
-  }, [isLoad, params, dispatch])
+  }, [isLoad, params, dispatch]);
 
   function handleDelete(id) {
     // SET LOADING
@@ -82,7 +84,7 @@ export default function CardAddress() {
     axios
       .delete(`${process.env.REACT_APP_API_BASE_URL}/address/${id}/destroy`)
       .then((response) => {
-        setIsLoad(true)
+        setIsLoad(true);
       })
       .catch((error) => {
         const message = error.response?.data?.message;
@@ -96,7 +98,7 @@ export default function CardAddress() {
         dispatch({ type: "SET_LOADING", value: false });
       });
   }
-  
+
   return (
     <Card>
       <Card.Body>
@@ -109,7 +111,7 @@ export default function CardAddress() {
                   name="sort_by"
                   value={params.sort_by}
                   onChange={handleChange}
-                  style={{ width: '15%'}}
+                  style={{ width: "15%" }}
                   className="mt-sm-0 mb-2"
                 >
                   <option value="asc">ASC</option>
@@ -121,7 +123,7 @@ export default function CardAddress() {
                   value={params.q}
                   onChange={handleChangeSearch}
                   placeholder="Search by code invoice"
-                  style={{ width: '85%'}}
+                  style={{ width: "85%" }}
                   className="mt-sm-0 mb-2"
                 />
               </InputGroup>
@@ -129,7 +131,7 @@ export default function CardAddress() {
           </Col>
 
           <Col lg="3" md="12" sm="12">
-            <Button 
+            <Button
               variant="success"
               className="text-truncate w-100 mt-lg-0 mt-2"
               onClick={handleCreateAddress}
@@ -171,5 +173,5 @@ export default function CardAddress() {
         </Row>
       </Card.Body>
     </Card>
-  )
+  );
 }

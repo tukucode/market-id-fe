@@ -1,6 +1,16 @@
-# Getting Started with Create React App
+# Final Project MERN
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Membuat website marketid sebagai acuan siswa dalam menyelesaikan Final Project dikelas MERN - Tomi di Eduwork.
+
+```
+Tech
+- Reacjs
+- Bootstrap & React Bootstrap
+- Formik & Yup untuk validation form
+- Redux & React Redux untuk state management
+- React Router Dom
+```
+## [Live Demo](https://market-id-fe.vercel.app/login)
 
 ## Available Scripts
 
